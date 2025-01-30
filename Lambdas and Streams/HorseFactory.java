@@ -1,0 +1,96 @@
+import java.util.ArrayList;
+import java.util.Random;
+
+public class HorseFactory {
+	public Horse createRandomHorse(int id, int raceTrackLength) {
+		Random rand = new Random();
+
+        ArrayList<String> horseNames = new ArrayList<>();
+        horseNames.add("Thunderbolt");
+        horseNames.add("Stormy Knight");
+        horseNames.add("Golden Arrow");
+        horseNames.add("Silver Star");
+        horseNames.add("Midnight Runner");
+        horseNames.add("Sapphire Dream");
+        horseNames.add("Majestic Wind");
+        horseNames.add("Whirlwind");
+        horseNames.add("Wildfire");
+        horseNames.add("Echo Shadow");
+        horseNames.add("Dusty Trail");
+        horseNames.add("Crimson Blaze");
+        horseNames.add("Desert Phantom");
+        horseNames.add("Moonlight Serenade");
+        horseNames.add("Cobalt Rush");
+        horseNames.add("Ivory Blaze");
+        horseNames.add("Frostbite");
+        horseNames.add("Thunderstorm");
+        horseNames.add("Shadow Whisper");
+        horseNames.add("Scarlet Thunder");
+        horseNames.add("Sunset Rider");
+        horseNames.add("Storm Chaser");
+        horseNames.add("Velvet Thunder");
+        horseNames.add("Firefly");
+        horseNames.add("Eagle Spirit");
+        horseNames.add("Silver Moon");
+        horseNames.add("Mystic Rider");
+        horseNames.add("Ember Heart");
+        horseNames.add("Steel Dawn");
+        horseNames.add("Black Diamond");
+        horseNames.add("Golden Horizon");
+        horseNames.add("Blue Mirage");
+        horseNames.add("Echo Rider");
+        horseNames.add("Copper Knight");
+        horseNames.add("Phantom Horse");
+        horseNames.add("Wind Dancer");
+        horseNames.add("Moonlit Melody");
+        horseNames.add("Blazing Star");
+        horseNames.add("Onyx Hunter");
+        horseNames.add("Red Thunder");
+
+        ArrayList<String> warCries = new ArrayList<>();
+        warCries.add("For Honor!");
+        warCries.add("Victory or Death!");
+        warCries.add("Charge!");
+        warCries.add("To the battlefield!");
+        warCries.add("For Glory!");
+        warCries.add("Unleash the Fury!");
+        warCries.add("By the sword!");
+        warCries.add("Fight till the end!");
+        warCries.add("Stand and fight!");
+        warCries.add("Blood and Steel!");
+        warCries.add("For the King!");
+        warCries.add("No Mercy!");
+        warCries.add("For the Horde!");
+        warCries.add("Death to our enemies!");
+        warCries.add("We fight for freedom!");
+        warCries.add("Strike hard, strike fast!");
+        warCries.add("Death before dishonor!");
+        warCries.add("Victory is ours!");
+        warCries.add("Bring them down!");
+        warCries.add("For the Empire!");
+        warCries.add("Today, we conquer!");
+        warCries.add("None shall stand before us!");
+        warCries.add("For the Fallen!");
+        warCries.add("Onward to Victory!");
+        warCries.add("For the Realm!");
+        warCries.add("No retreat, no surrender!");
+        warCries.add("To the last breath!");
+        warCries.add("To the ends of the earth!");
+        warCries.add("We will not be broken!");
+        warCries.add("In the name of justice!");
+        warCries.add("Fight with honor!");
+        warCries.add("For our ancestors!");
+        warCries.add("The battle is ours!");
+        warCries.add("Let the heavens shake!");
+        warCries.add("For the Brotherhood!");
+        warCries.add("This is our land!");
+        warCries.add("Rage of the warrior!");
+        warCries.add("For the victory!");
+        warCries.add("Strike with wrath!");
+        warCries.add(null);
+
+        Horse h = new Horse(horseNames.get(rand.nextInt(40)), warCries.get(rand.nextInt(40)), rand.nextInt(2, 20), rand.nextBoolean(), raceTrackLength);
+        h.setId(id);
+        return h;
+	}
+}
