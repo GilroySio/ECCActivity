@@ -9,41 +9,44 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PairServices {
-    public static int[] reset(Scanner s) {
-        String dimensions;
+    public boolean validateDimensions(String dimensions) {
         Pattern pattern = Pattern.compile("^[0-9]+x[0-9]+$");
 
         Matcher matcher;
         boolean matchFound;
-        boolean validInput = false;
 
         String[] dimensionsArray;
         int[] dimensionsArrayInt = {0, 0};
-        System.out.print("Input table dimension: ");
 
+        matcher = pattern.matcher(dimensions);
+        matchFound = matcher.find();
+        if (!matchFound) {
+            System.out.print("Incorrect format, input in the format [number]x[number]: ");
+            return false;
+        }
+        dimensionsArray = dimensions.split("x");
+        dimensionsArrayInt = new int[]{Integer.parseInt(dimensionsArray[0]), Integer.parseInt(dimensionsArray[1])};
+        if (dimensionsArrayInt[0] == 0 || dimensionsArrayInt[1] == 0) {
+            System.out.print("Invalid input, dimension cannot be 0: ");
+            return false;
+        }   
+        return true;
+        
+    }
+    public int[] reset(Scanner s) {
+        String dimensions;
+        String[] dimensionsArray;
+        int[] dimensionsArrayInt = {0, 0};
         do {
             dimensions = s.nextLine();
             dimensions = dimensions.trim();
-            matcher = pattern.matcher(dimensions);
-            matchFound = matcher.find();
-            if (!matchFound) {
-                System.out.print("Incorrect format, input in the format [number]x[number]: ");
-                continue;
-            }
-            dimensionsArray = dimensions.split("x");
-            dimensionsArrayInt = new int[]{Integer.parseInt(dimensionsArray[0]), Integer.parseInt(dimensionsArray[1])};
-            if (dimensionsArrayInt[0] == 0 || dimensionsArrayInt[1] == 0) {
-                System.out.print("Invalid input, dimension cannot be 0: ");
-                validInput = false;
-            } else {
-                dimensionsArrayInt = new int[]{Integer.parseInt(dimensionsArray[0]), Integer.parseInt(dimensionsArray[1])};
-                validInput = true;
-            }
-        } while (!matchFound || !validInput);
+        } while (!validateDimensions(dimensions));
+        dimensionsArray = dimensions.split("x");
+        dimensionsArrayInt = new int[]{Integer.parseInt(dimensionsArray[0]), Integer.parseInt(dimensionsArray[1])};
         return dimensionsArrayInt;
     }
 
-    public static ArrayList<ArrayList<Pair>> generate(int len, int width, Random rand) {
+    public ArrayList<ArrayList<Pair>> generate(int len, int width, Random rand) {
         ArrayList<ArrayList<Pair>> array = new ArrayList<ArrayList<Pair>>();
         int randomInt;
         String key;
@@ -70,7 +73,7 @@ public class PairServices {
         return array;
     }
 
-    public static void printArray(ArrayList<ArrayList<Pair>> array) {
+    public void printArray(ArrayList<ArrayList<Pair>> array) {
         for (ArrayList<Pair> i : array) {
             for (Pair j : i) {
                 if (j == null) {
@@ -83,7 +86,7 @@ public class PairServices {
         }
     }
 
-    public static ArrayList<int[]> search(ArrayList<ArrayList<Pair>> array, Scanner s) {
+    public ArrayList<int[]> search(ArrayList<ArrayList<Pair>> array, Scanner s) {
         String target;
         System.out.print("Search: ");
         target = s.nextLine();
@@ -114,7 +117,7 @@ public class PairServices {
         return searchResults;
     }
 
-    public static void printSearchResults(ArrayList<int[]> searchResults) {
+    public void printSearchResults(ArrayList<int[]> searchResults) {
         if (searchResults.isEmpty()) {
             System.out.println("No occurrences");
         } else {
@@ -124,12 +127,34 @@ public class PairServices {
         }
     }
 
-    public static String[] edit(ArrayList<ArrayList<Pair>> array, Scanner s) {
-        String option;
+    public boolean validateEdit(ArrayList<ArrayList<Pair>> array, String option){
         Pattern pattern = Pattern.compile("^[0-9]+x[0-9]+-[kvb]$");
         Matcher matcher;
         boolean matchFound;
-        boolean validInput = false;
+
+        String[] keyValueOptionArray;
+        String[] indexArray;
+        int[] indexArrayInt = new int[2];
+
+        matcher = pattern.matcher(option);
+        matchFound = matcher.find();
+        if (!matchFound) {
+            System.out.print("Incorrect format, input the index and key, value, or both in the format [number]x[number]-[k/v/b]: ");
+            return false;
+        }
+        keyValueOptionArray = option.split("-");
+
+        indexArray = keyValueOptionArray[0].split("x");
+        indexArrayInt = new int[]{Integer.parseInt(indexArray[0]), Integer.parseInt(indexArray[1])};
+        if (indexArrayInt[0] >= array.size() || indexArrayInt[1] >= array.get(indexArrayInt[0]).size()) {
+            System.out.print("Invalid value, index out of bounds: ");
+            return false;
+        }
+        return true;
+    }
+
+    public String[] edit(ArrayList<ArrayList<Pair>> array, Scanner s) {
+        String option;
 
         String[] keyValueOptionArray;
         String keyValueOption = "";
@@ -143,26 +168,13 @@ public class PairServices {
         do {
             option = s.nextLine();
             option = option.trim();
-            matcher = pattern.matcher(option);
-            matchFound = matcher.find();
-            if (!matchFound) {
-                System.out.print("Incorrect format, input the index and key, value, or both in the format [number]x[number]-[k/v/b]: ");
-                continue;
-            }
-            keyValueOptionArray = option.split("-");
-            keyValueOption = keyValueOptionArray[1];
+        } while (!validateEdit(array, option));
+        
+        keyValueOptionArray = option.split("-");
+        keyValueOption = keyValueOptionArray[1];
+        indexArray = keyValueOptionArray[0].split("x");
+        indexArrayInt = new int[]{Integer.parseInt(indexArray[0]), Integer.parseInt(indexArray[1])};
 
-            indexArray = keyValueOptionArray[0].split("x");
-            indexArrayInt = new int[]{Integer.parseInt(indexArray[0]), Integer.parseInt(indexArray[1])};
-            if (indexArrayInt[0] >= array.size() || indexArrayInt[1] >= array.get(indexArrayInt[0]).size()) {
-                System.out.print("Invalid value, index out of bounds: ");
-                validInput = false;
-            } else {
-                indexArray = keyValueOptionArray[0].split("x");
-                indexArrayInt = new int[]{Integer.parseInt(indexArray[0]), Integer.parseInt(indexArray[1])};
-                validInput = true;
-            }
-        } while (!matchFound || !validInput);
         String key, value;
         if (array.get(indexArrayInt[0]).get(indexArrayInt[1]) == null) {
             System.out.print("Null pair detected, input key: ");
@@ -200,23 +212,26 @@ public class PairServices {
         return editResults;
     }
 
-    public static void printEditResults(String[] editResults) {
+    public void printEditResults(String[] editResults) {
         System.out.println(editResults[0] + " -> " + editResults[1]);
     }
 
-    public static void sort(ArrayList<ArrayList<Pair>> array, Scanner s) {
+    public boolean validateSort(String option){
+        if (option.equals("a") || option.equals("d")) {
+            return true;
+        } else {
+            System.out.print("Invalid input, input a for ascending or d for descending: ");
+            return false;
+        }
+    }
+
+    public void sort(ArrayList<ArrayList<Pair>> array, Scanner s) {
         String option;
-        boolean validInput = false;
         System.out.print("Sort in Ascending [a] or Descending order [d]: ");
         do {
             option = s.nextLine();
             option = option.trim();
-            if (option.equals("a") || option.equals("d")) {
-                validInput = true;
-            } else {
-                System.out.print("Invalid input, input a for ascending or d for descending: ");
-            }
-        } while (!validInput);
+        } while (!validateSort(option));
 
         final String tempOption = option;
         for(ArrayList<Pair> i : array) {
@@ -235,7 +250,7 @@ public class PairServices {
         }
     }
 
-    public static void addNewColumn(ArrayList<ArrayList<Pair>> array) {
+    public void addNewColumn(ArrayList<ArrayList<Pair>> array) {
         for(ArrayList<Pair> i : array) {
             i.add(null);
         }

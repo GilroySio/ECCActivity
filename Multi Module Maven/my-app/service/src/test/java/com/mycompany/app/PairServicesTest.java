@@ -26,9 +26,6 @@ public class PairServicesTest {
         assertEquals(list.get(0).size(), 4);
     }
 
-    @Test
-    public void shouldAnswerWithTrue() {
-        assertTrue(true);
-    }
+
 
 }
