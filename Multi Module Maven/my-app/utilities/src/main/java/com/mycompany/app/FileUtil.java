@@ -8,7 +8,6 @@ import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 
 public class FileUtil {
     public static void writeToFile(ArrayList<ArrayList<Pair>> array, String fileName) {
