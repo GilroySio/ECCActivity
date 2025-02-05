@@ -63,10 +63,10 @@ public class Main {
             option = menu(s);
             switch (option) {
                 case 1:
-                    pairService.printSearchResults(pairService.search(array, s));
+                    pairService.printSearchResults(pairService.search(array, pairService.getSearch(s)));
                     break;
                 case 2:
-                    pairService.printEditResults(pairService.edit(array, s));
+                    pairService.printEditResults(pairService.edit(array, pairService.getEdit(array, s), s));
                     break;
                 case 3:
                     pairService.printArray(array);
@@ -76,7 +76,7 @@ public class Main {
                     array = pairService.generate(dimensions[0], dimensions[1], rand);
                     break;
                 case 5:
-                    pairService.sort(array, s);
+                    pairService.sort(array, pairService.getSort(s));
                     break;
                 case 6:
                     pairService.addNewColumn(array);

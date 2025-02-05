@@ -2,6 +2,7 @@ package com.mycompany.app;
 
 import java.util.Scanner;
 import java.util.Random;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Collections;
@@ -86,12 +87,17 @@ public class PairServices {
         }
     }
 
-    public ArrayList<int[]> search(ArrayList<ArrayList<Pair>> array, Scanner s) {
+    public String getSearch(Scanner s) {
         String target;
         System.out.print("Search: ");
         target = s.nextLine();
         target = target.trim();
-        ArrayList<int[]> searchResults = new ArrayList<int[]>();
+        return target;
+    }
+
+    public ArrayList<ArrayList<Integer>> search(ArrayList<ArrayList<Pair>> array, String target) {
+
+        ArrayList<ArrayList<Integer>> searchResults = new ArrayList<ArrayList<Integer>>();
 
         int counter;
         Pair p;
@@ -109,7 +115,7 @@ public class PairServices {
                         }
                     }
                     if (counter > 0) {
-                        searchResults.add(new int[] {counter, i, j});
+                        searchResults.add(new ArrayList<Integer>(List.of(counter, i, j)));
                     }
                 }
             }
@@ -117,12 +123,12 @@ public class PairServices {
         return searchResults;
     }
 
-    public void printSearchResults(ArrayList<int[]> searchResults) {
+    public void printSearchResults(ArrayList<ArrayList<Integer>> searchResults) {
         if (searchResults.isEmpty()) {
             System.out.println("No occurrences");
         } else {
-            for (int[] i : searchResults) {
-                System.out.println(i[0] + " Occurrence/s at [" + i[1] + "," + i[2] + "]");
+            for (ArrayList<Integer> i : searchResults) {
+                System.out.println(i.get(0) + " Occurrence/s at [" + i.get(1) + "," + i.get(2) + "]");
             }
         }
     }
@@ -153,9 +159,17 @@ public class PairServices {
         return true;
     }
 
-    public String[] edit(ArrayList<ArrayList<Pair>> array, Scanner s) {
+    public String getEdit(ArrayList<ArrayList<Pair>> array, Scanner s) {
         String option;
+        System.out.print("Index [number]x[number] and key [k], value [v], or both [b] to edit: ");
+        do {
+            option = s.nextLine();
+            option = option.trim();
+        } while (!validateEdit(array, option));
+        return option;
+    }
 
+    public String[] edit(ArrayList<ArrayList<Pair>> array, String option, Scanner s) {
         String[] keyValueOptionArray;
         String keyValueOption = "";
 
@@ -164,12 +178,6 @@ public class PairServices {
 
         String[] editResults = new String[2];
 
-        System.out.print("Index [number]x[number] and key [k], value [v], or both [b] to edit: ");
-        do {
-            option = s.nextLine();
-            option = option.trim();
-        } while (!validateEdit(array, option));
-        
         keyValueOptionArray = option.split("-");
         keyValueOption = keyValueOptionArray[1];
         indexArray = keyValueOptionArray[0].split("x");
@@ -225,15 +233,17 @@ public class PairServices {
         }
     }
 
-    public void sort(ArrayList<ArrayList<Pair>> array, Scanner s) {
+    public String getSort(Scanner s) {
         String option;
         System.out.print("Sort in Ascending [a] or Descending order [d]: ");
         do {
             option = s.nextLine();
             option = option.trim();
         } while (!validateSort(option));
+        return option;
+    }
 
-        final String tempOption = option;
+    public void sort(ArrayList<ArrayList<Pair>> array, String option) {
         for(ArrayList<Pair> i : array) {
             Collections.sort(i, new Comparator<Pair>() {
                 @Override
@@ -244,7 +254,7 @@ public class PairServices {
                     if (o2 == null) {
                         return -1;
                     }
-                    return tempOption.equals("a") ? o1.getKeyValue().compareTo(o2.getKeyValue()) : o1.getKeyValue().compareTo(o2.getKeyValue())*-1;
+                    return option.equals("a") ? o1.getKeyValue().compareTo(o2.getKeyValue()) : o1.getKeyValue().compareTo(o2.getKeyValue())*-1;
                 }
             });
         }

@@ -27,4 +27,16 @@ public class Pair extends AbstractPair {
         }
         return this.key+","+this.value;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Pair)) {
+            return false;
+        }
+        Pair p = (Pair) o;
+        if (this.key.equals(p.getKey()) && this.value.equals(p.getValue())){
+            return true;
+        }
+        return false;
+    }
 }
