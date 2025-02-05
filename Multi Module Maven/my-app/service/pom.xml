@@ -41,6 +41,10 @@
       <groupId>com.mycompany.app</groupId>
       <artifactId>model</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.mycompany.app</groupId>
+      <artifactId>utilities</artifactId>
+    </dependency>
   </dependencies>
   <build>
     <plugins>

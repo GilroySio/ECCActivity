@@ -38,6 +38,7 @@ public class PairServices {
         String dimensions;
         String[] dimensionsArray;
         int[] dimensionsArrayInt = {0, 0};
+        System.out.print("Input array dimensions: ");
         do {
             dimensions = s.nextLine();
             dimensions = dimensions.trim();

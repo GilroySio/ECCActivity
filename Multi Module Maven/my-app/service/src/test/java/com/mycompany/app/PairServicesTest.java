@@ -8,12 +8,11 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 import java.util.Random;
 import java.util.Scanner;
-import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.ArrayList;
+import java.io.ByteArrayInputStream;
 
 public class PairServicesTest {
 
@@ -103,12 +102,15 @@ public class PairServicesTest {
 
         expectedResult = new String[]{testArray.get(0).get(0).getKey(), "try"};
         assertArrayEquals(ps.edit(testArray, "0x0-k", scanner), expectedResult);
+        assertEquals(testArray.get(0).get(0).getKey(), "try");
 
         expectedResult = new String[]{testArray.get(0).get(1).getValue(), "pat"};
         assertArrayEquals(ps.edit(testArray, "0x1-v", scanner), expectedResult);
+        assertEquals(testArray.get(0).get(1).getValue(), "pat");
 
         expectedResult = new String[]{testArray.get(1).get(0).getKeyValue(), "sam,ple"};
         assertArrayEquals(ps.edit(testArray, "1x0-b", scanner), expectedResult);
+        assertEquals(testArray.get(1).get(0).getKeyValue(), "sam,ple");
     }
 
     @Test
