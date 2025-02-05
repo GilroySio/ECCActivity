@@ -95,8 +95,10 @@ public class PairServicesTest {
 
     @Test
     public void editTest() {
-        mockInput = new ByteArrayInputStream("try\npat\nsam\nple".getBytes());
+        mockInput = new ByteArrayInputStream("try\npat\nsam\nple\nnul\nval".getBytes());
         scanner = new Scanner(mockInput);
+
+        testArray.get(0).add(null);
 
         String[] expectedResult;
 
@@ -111,6 +113,10 @@ public class PairServicesTest {
         expectedResult = new String[]{testArray.get(1).get(0).getKeyValue(), "sam,ple"};
         assertArrayEquals(ps.edit(testArray, "1x0-b", scanner), expectedResult);
         assertEquals(testArray.get(1).get(0).getKeyValue(), "sam,ple");
+
+        expectedResult = new String[]{"null", "nul,val"};
+        assertArrayEquals(ps.edit(testArray, "0x2-k", scanner), expectedResult);
+        assertEquals(testArray.get(0).get(2).getKeyValue(), "nul,val");
     }
 
     @Test
@@ -124,10 +130,41 @@ public class PairServicesTest {
     }
 
     @Test
+    public void sortTest() {
+        Pair p1, p2;
+        testArray.get(0).add(null);
+        testArray.get(1).add(0, null);
+
+        ps.sort(testArray, "a");
+        for (ArrayList<Pair> row : testArray) {
+            for (int i = 0; i < row.size() - 1; i++) {
+                p1 = row.get(i);
+                p2 = row.get(i+1);
+                if(p2 != null){
+                    assertTrue(p1.getKeyValue().compareTo(p2.getKeyValue()) <= 0);
+                }
+            }
+        }
+
+        ps.sort(testArray, "d");
+        for (ArrayList<Pair> row : testArray) {
+            for (int i = 0; i < row.size() - 1; i++) {
+                p1 = row.get(i);
+                p2 = row.get(i+1);
+                if(p2 != null){
+                    assertTrue(p1.getKeyValue().compareTo(p2.getKeyValue()) >= 0);
+                }
+            }
+        }
+    }
+
+    @Test
     public void addNewColumnTest() {
         ps.addNewColumn(testArray);
         assertEquals(testArray.get(0).size(), 3);
         ps.addNewColumn(testArray);
         assertEquals(testArray.get(0).size(), 4);
     }
+
+    
 }

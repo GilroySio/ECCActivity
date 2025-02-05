@@ -52,17 +52,15 @@ public class MenuServices {
 
     public ArrayList<ArrayList<Pair>> initializeArray(String[] args, Scanner s, Random rand) {
         int[] dimensions;
-        ArrayList<ArrayList<Pair>> array;
+        ArrayList<ArrayList<Pair>> array = null;
         PairServices pairServices = new PairServices();
         if (args.length > 0) {
             array = FileUtil.readFromFile(s, rand, args[0]);
-            if (array == null) {
-                dimensions = pairServices.reset(s);
-                array = pairServices.generate(dimensions[0], dimensions[1], rand);
-            }
-        } else {
-            dimensions = pairServices.reset(s);
-            array = pairServices.generate(dimensions[0], dimensions[1], rand);
+        }
+   
+        if (array == null) {
+        dimensions = pairServices.reset(s);
+        array = pairServices.generate(dimensions[0], dimensions[1], rand);
         }
         return array;
     }
