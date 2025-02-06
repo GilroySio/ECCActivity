@@ -50,10 +50,9 @@ public class MenuServices {
         }
     }
 
-    public ArrayList<ArrayList<Pair>> initializeArray(String[] args, Scanner s, Random rand) {
+    public ArrayList<ArrayList<Pair>> initializeArray(String[] args, Scanner s, Random rand, PairServices pairServices) {
         int[] dimensions;
         ArrayList<ArrayList<Pair>> array = null;
-        PairServices pairServices = new PairServices();
         if (args.length > 0) {
             array = FileUtil.readFromFile(s, rand, args[0]);
         }
@@ -93,9 +92,8 @@ public class MenuServices {
         }
     }
 
-    public void menuMainLoop(ArrayList<ArrayList<Pair>> array, Scanner s, Random rand) {
+    public void menuMainLoop(ArrayList<ArrayList<Pair>> array, Scanner s, Random rand, PairServices pairServices) {
         int option;
-        PairServices pairServices = new PairServices();
         do {
             printMenu();
             option = menuInput(getMenu(s));

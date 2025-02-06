@@ -13,8 +13,8 @@ public class Main {
         Random rand = new Random();
         ArrayList<ArrayList<Pair>> array;
 
-        array = menuServices.initializeArray(args, s, rand);
-        menuServices.menuMainLoop(array, s, rand);
+        array = menuServices.initializeArray(args, s, rand, pairServices);
+        menuServices.menuMainLoop(array, s, rand, pairServices);
         menuServices.closingApp(args, array, s);
     }
 }

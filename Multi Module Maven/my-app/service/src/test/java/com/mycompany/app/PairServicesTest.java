@@ -49,34 +49,51 @@ public class PairServicesTest {
     public void generateTest() {
         Random rand = new Random();
         ArrayList<ArrayList<Pair>> list = ps.generate(3, 4, rand);
-        assertEquals(list.size(), 3);
-        assertEquals(list.get(0).size(), 4);
+        assertEquals(3, list.size());
+        assertEquals(4, list.get(0).size());
     }
 
     @Test
     public void resetTest() {
-        mockInput = new ByteArrayInputStream("3x4".getBytes());
-        //System.setIn(mockInput);
+        mockInput = new ByteArrayInputStream("3x4\nabc\n5x6".getBytes());
         scanner = new Scanner(mockInput);
-        int[] result = new int[]{3, 4};
-        assertArrayEquals(ps.reset(scanner), result);
+        int[] expectedResult;
+        
+        expectedResult = new int[] {3, 4};
+        assertArrayEquals(expectedResult, ps.reset(scanner));
+
+        expectedResult = new int[] {5, 6};
+        assertArrayEquals(expectedResult, ps.reset(scanner));
+    }
+
+    @Test
+    public void getSearchTest() {
+        mockInput = new ByteArrayInputStream("search".getBytes());
+        scanner = new Scanner(mockInput);
+        String expectedResult = "search";
+        assertEquals(expectedResult, ps.getSearch(scanner));
     }
 
     @Test
     public void searchTest() {
         ArrayList<ArrayList<Integer>> expectedResult;
 
+        testArray.get(0).add(null);
+
         expectedResult = new ArrayList<ArrayList<Integer>>();
         expectedResult.add(new ArrayList<Integer>(List.of(1, 0, 0)));
-        assertEquals(ps.search(testArray, "key"), expectedResult);
+        assertEquals(expectedResult, ps.search(testArray, "key"));
 
         expectedResult = new ArrayList<ArrayList<Integer>>();
         expectedResult.add(new ArrayList<Integer>(List.of(1, 0, 0)));
         expectedResult.add(new ArrayList<Integer>(List.of(3, 0, 1)));
-        assertEquals(ps.search(testArray, "e"), expectedResult);
+        assertEquals(expectedResult, ps.search(testArray, "e"));
 
         expectedResult = new ArrayList<ArrayList<Integer>>();
-        assertEquals(ps.search(testArray, "ztx"), expectedResult);
+        assertEquals(expectedResult, ps.search(testArray, "ztx"));
+
+        expectedResult = new ArrayList<ArrayList<Integer>>();
+        assertEquals(expectedResult, ps.search(testArray, ""));
 
     }
 
@@ -94,6 +111,19 @@ public class PairServicesTest {
     }
 
     @Test
+    public void getEditTest() {
+        mockInput = new ByteArrayInputStream("1x0-k\nabc\n0x0-b".getBytes());
+        scanner = new Scanner(mockInput);
+        String expectedResult;
+
+        expectedResult = "1x0-k";
+        assertEquals(expectedResult, ps.getEdit(testArray, scanner));
+
+        expectedResult = "0x0-b";
+        assertEquals(expectedResult, ps.getEdit(testArray, scanner));
+    }
+
+    @Test
     public void editTest() {
         mockInput = new ByteArrayInputStream("try\npat\nsam\nple\nnul\nval".getBytes());
         scanner = new Scanner(mockInput);
@@ -103,20 +133,20 @@ public class PairServicesTest {
         String[] expectedResult;
 
         expectedResult = new String[]{testArray.get(0).get(0).getKey(), "try"};
-        assertArrayEquals(ps.edit(testArray, "0x0-k", scanner), expectedResult);
-        assertEquals(testArray.get(0).get(0).getKey(), "try");
+        assertArrayEquals(expectedResult, ps.edit(testArray, "0x0-k", scanner));
+        assertEquals("try", testArray.get(0).get(0).getKey());
 
         expectedResult = new String[]{testArray.get(0).get(1).getValue(), "pat"};
-        assertArrayEquals(ps.edit(testArray, "0x1-v", scanner), expectedResult);
-        assertEquals(testArray.get(0).get(1).getValue(), "pat");
+        assertArrayEquals(expectedResult, ps.edit(testArray, "0x1-v", scanner));
+        assertEquals("pat", testArray.get(0).get(1).getValue());
 
         expectedResult = new String[]{testArray.get(1).get(0).getKeyValue(), "sam,ple"};
-        assertArrayEquals(ps.edit(testArray, "1x0-b", scanner), expectedResult);
-        assertEquals(testArray.get(1).get(0).getKeyValue(), "sam,ple");
+        assertArrayEquals(expectedResult, ps.edit(testArray, "1x0-b", scanner));
+        assertEquals("sam,ple", testArray.get(1).get(0).getKeyValue());
 
         expectedResult = new String[]{"null", "nul,val"};
-        assertArrayEquals(ps.edit(testArray, "0x2-k", scanner), expectedResult);
-        assertEquals(testArray.get(0).get(2).getKeyValue(), "nul,val");
+        assertArrayEquals(expectedResult, ps.edit(testArray, "0x2-k", scanner));
+        assertEquals("nul,val", testArray.get(0).get(2).getKeyValue());
     }
 
     @Test
@@ -127,6 +157,19 @@ public class PairServicesTest {
         assertFalse(ps.validateSort("x"));
         assertFalse(ps.validateSort("ad"));
         assertFalse(ps.validateSort("da"));
+    }
+
+    @Test
+    public void getSortTest() {
+        mockInput = new ByteArrayInputStream("a\nr\nd".getBytes());
+        scanner = new Scanner(mockInput);
+        String expectedResult;
+
+        expectedResult = "a";
+        assertEquals(expectedResult, ps.getSort(scanner));
+
+        expectedResult = "d";
+        assertEquals(expectedResult, ps.getSort(scanner));
     }
 
     @Test
@@ -161,9 +204,9 @@ public class PairServicesTest {
     @Test
     public void addNewColumnTest() {
         ps.addNewColumn(testArray);
-        assertEquals(testArray.get(0).size(), 3);
+        assertEquals(3, testArray.get(0).size());
         ps.addNewColumn(testArray);
-        assertEquals(testArray.get(0).size(), 4);
+        assertEquals(4, testArray.get(0).size());
     }
 
     
