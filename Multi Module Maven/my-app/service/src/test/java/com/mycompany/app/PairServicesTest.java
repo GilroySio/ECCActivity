@@ -16,14 +16,14 @@ import java.io.ByteArrayInputStream;
 
 public class PairServicesTest {
 
-    PairServices ps;
+    PairServicesImpl ps;
     ByteArrayInputStream mockInput;
     Scanner scanner;
     ArrayList<ArrayList<Pair>> testArray;
 
     @BeforeEach
     void setUp() {
-        ps = new PairServices();
+        ps = new PairServicesImpl();
         
         testArray = new ArrayList<ArrayList<Pair>>();
         testArray.add(new ArrayList<Pair>());

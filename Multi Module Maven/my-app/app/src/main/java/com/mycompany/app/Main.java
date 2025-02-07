@@ -8,8 +8,8 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
-        PairServices pairServices = new PairServices();
-        MenuServices menuServices = new MenuServices();
+        PairServicesImpl pairServices = new PairServicesImpl();
+        MenuServicesImpl menuServices = new MenuServicesImpl();
         Random rand = new Random();
         ArrayList<ArrayList<Pair>> array;
 

@@ -25,20 +25,20 @@ import org.mockito.MockedStatic;
 
 public class MenuServicesTest {
 
-    MenuServices ms;
+    MenuServicesImpl ms;
     ByteArrayInputStream mockInput;
     Scanner scanner;
     ArrayList<ArrayList<Pair>> testArray;
 
     @Mock
-    PairServices mockPairServices;
+    PairServicesImpl mockPairServices;
 
     MockedStatic<FileUtil> mockFileUtil;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        ms = new MenuServices();
+        ms = new MenuServicesImpl();
 
         mockFileUtil = mockStatic(FileUtil.class);
         
@@ -76,21 +76,21 @@ public class MenuServicesTest {
         mockInput = new ByteArrayInputStream("1\n2\n3\np\nx".getBytes());
         scanner = new Scanner(mockInput);
 
-        assertEquals("1", ms.getMenu(scanner));
-        assertEquals("2", ms.getMenu(scanner));
-        assertEquals("3", ms.getMenu(scanner));
-        assertEquals("x", ms.getMenu(scanner));
+        assertEquals("1", ms.getMenuInput(scanner));
+        assertEquals("2", ms.getMenuInput(scanner));
+        assertEquals("3", ms.getMenuInput(scanner));
+        assertEquals("x", ms.getMenuInput(scanner));
     }
 
     @Test 
     public void menuInputTest() {
-        assertEquals(1, ms.menuInput("1"));
-        assertEquals(2, ms.menuInput("2"));
-        assertEquals(3, ms.menuInput("3"));
-        assertEquals(4, ms.menuInput("4"));
-        assertEquals(5, ms.menuInput("5"));
-        assertEquals(6, ms.menuInput("6"));
-        assertEquals(7, ms.menuInput("x"));
+        assertEquals(1, ms.convertMenuInputToInt("1"));
+        assertEquals(2, ms.convertMenuInputToInt("2"));
+        assertEquals(3, ms.convertMenuInputToInt("3"));
+        assertEquals(4, ms.convertMenuInputToInt("4"));
+        assertEquals(5, ms.convertMenuInputToInt("5"));
+        assertEquals(6, ms.convertMenuInputToInt("6"));
+        assertEquals(7, ms.convertMenuInputToInt("x"));
     }
 
     @Test
