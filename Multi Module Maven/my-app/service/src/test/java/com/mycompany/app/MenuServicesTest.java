@@ -19,10 +19,12 @@ import java.util.Random;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.MockedStatic;
 
+@ExtendWith(MockitoExtension.class)
 public class MenuServicesTest {
 
     MenuServicesImpl ms;
@@ -37,7 +39,7 @@ public class MenuServicesTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
+        //MockitoAnnotations.initMocks(this);
         ms = new MenuServicesImpl();
 
         mockFileUtil = mockStatic(FileUtil.class);
