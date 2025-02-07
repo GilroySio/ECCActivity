@@ -1,10 +1,18 @@
 package com.mycompany.app;
 
-public class Pair extends AbstractPair {
-    public Pair(String key, String value)  {
-        super(key, value);
-    }
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter @Setter
+public class Pair {
+    private String key;
+    private String value;
+
+    public Pair(String key, String value)  {
+        this.key = key;
+        this.value = value;
+    }
+/*
     public void setKey(String key) {
         this.key = key;
     }
@@ -20,23 +28,11 @@ public class Pair extends AbstractPair {
     public String getValue() {
         return this.value;
     }
-    
+*/
     public String getKeyValue() {
         if (this.key.isEmpty() && this.value.isEmpty()) {
             return null;
         }
         return this.key+","+this.value;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Pair)) {
-            return false;
-        }
-        Pair p = (Pair) o;
-        if (this.key.equals(p.getKey()) && this.value.equals(p.getValue())){
-            return true;
-        }
-        return false;
     }
 }
